@@ -16,7 +16,14 @@ export default function CustomFilter({ title, options }: CustomFilterProps) {
   const handleUpdateParams = (e: { title: string; value: string }) => {
     const newPathName = updateSearchParams(title, e.value.toLowerCase());
 
-    router.push(newPathName);
+    if (window.history.replaceState) {
+      window.history.replaceState(null, "", newPathName);
+    } else {
+      router.replace(newPathName);
+    }
+
+    window.scrollTo({ top: 1000, behavior: "smooth" });
+    window.location.reload();
   };
 
   return (
